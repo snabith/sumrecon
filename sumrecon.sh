@@ -92,7 +92,7 @@
     rm $url/recon/final1.txt
     
     echo "[+] Compiling 3rd lvl domains..."
-    cat ~/$url/recon/final.txt | grep -Po '(\w+\.\w+\.\w+)$' | sort -u >> ~/$url/recon/3rd-lvl-domains.txt
+    cat $url/recon/final.txt | grep -Po '(\w+\.\w+\.\w+)$' | sort -u >> $url/recon/3rd-lvl-domains.txt
     #write in line to recursively run thru final.txt
     for line in $(cat $url/recon/3rd-lvl-domains.txt);do echo $line | sort -u | tee -a $url/recon/final.txt;done
     
@@ -102,20 +102,9 @@
     echo "[+] Probing for alive domains..."
     cat $url/recon/final.txt | sort -u | httprobe -s -p https:443 | sed 's/https\?:\/\///' | tr -d ':443' | sort -u >> $url/recon/httprobe/alive.txt
     sort -u $url/
-    echo "[+] Checking for possible subdomain takeover..."
-    if [ ! -f "$url/recon/potential_takeovers/domains.txt" ];then
-        touch $url/recon/potential_takeovers/domains.txt
-    fi
-    if [ ! -f "$url/recon/potential_takeovers/potential_takeovers1.txt" ];then
-        touch $url/recon/potential_takeovers/potential_takeovers1.txt
-    fi
-    for line in $(cat ~/$url/recon/final.txt);do echo $line |sort -u >> ~/$url/recon/potential_takeovers/domains.txt;done
-    subjack -w $url/recon/httprobe/alive.txt -t 100 -timeout 30 -ssl -c ~/go/src/github.com/haccer/subjack/fingerprints.json -v 3 >> $url/recon/potential_takeovers/potential_takeovers/potential_takeovers1.txt
-    sort -u $url/recon/potential_takeovers/potential_takeovers1.txt >> $url/recon/potential_takeovers/potential_takeovers.txt
-    rm $url/recon/potential_takeovers/potential_takeovers1.txt
     
     echo "[+] Running whatweb on compiled domains..."
-    for domain in $(cat ~/$url/recon/httprobe/alive.txt);do
+    for domain in $(cat $url/recon/httprobe/alive.txt);do
         if [ ! -d  "$url/recon/whatweb/$domain" ];then
             mkdir $url/recon/whatweb/$domain
         fi

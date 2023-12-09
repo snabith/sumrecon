@@ -1,3 +1,9 @@
+# About:
+- A forked repository of [sumrecon](https://github.com/Gr1mmie/sumrecon) by [Gr1mmie](https://github.com/Gr1mmie)
+## Updates:
+- Modifications to sumrecon. Now, you can run as a regular user
+    - Slight modifications to the script, and removed subjack.
+
 # sumrecon
 
 script I built upon courtesy of @hmaverickadams
